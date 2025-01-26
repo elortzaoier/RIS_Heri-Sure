@@ -1,0 +1,447 @@
+{
+  "ruleChain": {
+    "name": "RAK",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": true,
+    "configuration": null,
+    "additionalInfo": {
+      "description": ""
+    }
+  },
+  "metadata": {
+    "version": 45,
+    "firstNodeIndex": 6,
+    "nodes": [
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save Timeseries",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "defaultTTL": 0
+        },
+        "additionalInfo": {
+          "layoutX": 875,
+          "layoutY": 210
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save Client Attributes",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 2,
+        "configuration": {
+          "scope": "CLIENT_SCOPE",
+          "notifyDevice": false,
+          "sendAttributesUpdatedNotification": false,
+          "updateAttributesOnlyOnValueChange": true
+        },
+        "additionalInfo": {
+          "layoutX": 876,
+          "layoutY": 106
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
+        "name": "Message Type Switch",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "version": 0
+        },
+        "additionalInfo": {
+          "layoutX": 399,
+          "layoutY": 160
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log RPC from Device",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);",
+          "tbelScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        },
+        "additionalInfo": {
+          "layoutX": 876,
+          "layoutY": 320
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log Other",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);",
+          "tbelScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        },
+        "additionalInfo": {
+          "layoutX": 876,
+          "layoutY": 433
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
+        "name": "RPC Call Request",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "timeoutInSeconds": 60
+        },
+        "additionalInfo": {
+          "layoutX": 876,
+          "layoutY": 522
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.profile.TbDeviceProfileNode",
+        "name": "Device Profile Node",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "persistAlarmRulesState": false,
+          "fetchAlarmRulesStateOnStart": false
+        },
+        "additionalInfo": {
+          "description": "Process incoming messages from devices with the alarm rules defined in the device profile. Dispatch all incoming messages with \"Success\" relation type.",
+          "layoutX": 187,
+          "layoutY": 263
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.mqtt.TbMqttNode",
+        "name": "MQTT Message",
+        "debugSettings": null,
+        "singletonMode": true,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "v3/upvdisca-rakwireless-rak3172-app@ttn/devices/eui-ac1f09fffe1787f3/down/push",
+          "host": "eu1.cloud.thethings.network",
+          "port": 1883,
+          "connectTimeoutSec": 10,
+          "clientId": null,
+          "parseToPlainText": false,
+          "cleanSession": true,
+          "retainedMessage": false,
+          "ssl": false,
+          "credentials": {
+            "type": "basic",
+            "username": "upvdisca-rakwireless-rak3172-app@ttn",
+            "password": "NNSXS.3TAQMROYTIH4GZL2OEHFNGDQNECADMN64YTJZMA.X3Q6TRT6K6T33ZZB3FGJLGZZ7QMHQZLFO6HYHEAU3FKMYV3KISVQ"
+          }
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1428,
+          "layoutY": 19
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform message",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 1737543903085
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "JS",
+          "jsScript": "// Custom Base64 Encoding Function\nfunction base64Encode(input) {\n    var chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\";\n    var output = \"\";\n    var i = 0;\n\n    while (i < input.length) {\n        var char1 = input.charCodeAt(i++);\n        var char2 = i < input.length ? input.charCodeAt(i++) : NaN;\n        var char3 = i < input.length ? input.charCodeAt(i++) : NaN;\n\n        var enc1 = char1 >> 2;\n        var enc2 = ((char1 & 3) << 4) | (char2 >> 4);\n        var enc3 = ((char2 & 15) << 2) | (char3 >> 6);\n        var enc4 = char3 & 63;\n\n        if (isNaN(char2)) {\n            enc3 = enc4 = 64;\n        } else if (isNaN(char3)) {\n            enc4 = 64;\n        }\n\n        output += chars.charAt(enc1) + chars.charAt(enc2) + chars.charAt(enc3) + chars.charAt(enc4);\n    }\n\n    return output;\n}\n\nvar buffer = [];\n\n// Encode Temperature on Channel 1 (Type 0x67)\nbuffer.push(0x01); // Channel 1\nbuffer.push(0x67); // Temperature type\n\n// Assuming msg.maxTemperature is a valid string or number\nvar tempValue = Math.round(parseFloat(msg.maxTemperature) * 10); // Convert to 0.1°C resolution\n\nbuffer.push((tempValue >> 8) & 0xff); // High byte\nbuffer.push(tempValue & 0xff);        // Low byte\n\n// Convert buffer to Base64 string using custom Base64 encoding\nvar binaryPayload = new Uint8Array(buffer);\nvar frmPayload = base64Encode(String.fromCharCode.apply(null, binaryPayload));\n\n// Construct MQTT downlink payload\nvar mqttPayload = {\n    downlinks: [\n        {\n            f_port: 33,  // Make sure f_port is defined\n            frm_payload: frmPayload,\n            priority: \"NORMAL\",\n            decodedPayload: msg // msg\n            \n        }\n    ]\n};\n\nreturn {msg: mqttPayload, metadata: metadata, msgType: msgType};",
+          "tbelScript": "\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1146,
+          "layoutY": 13
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "maxTemperature",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return msg.temperature > 20;",
+          "tbelScript": "if (msg.maxTemperature != null) {\n    // maxTemperature exists and is not null\n    return true;\n} else {\n    // maxTemperature does not exist or is null\n    return false;\n}\n"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 875,
+          "layoutY": 41
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Alarma activada por RAK",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return msg.temperature > 20;",
+          "tbelScript": "return msg.alarmActivated;"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1135,
+          "layoutY": 106
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "alarmActivated",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return msg.temperature > 20;",
+          "tbelScript": "if (msg.alarmActivated != null && msg.alarmActivated == true) {\n    // alarmActivated exists and is not null\n    return true;\n} else {\n    // alarmActivated does not exist or is null\n    return false;\n}\n"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1137,
+          "layoutY": 198
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Change alarmActivated",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 1736851260947
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 2,
+        "configuration": {
+          "scope": "SERVER_SCOPE",
+          "notifyDevice": false,
+          "sendAttributesUpdatedNotification": true,
+          "updateAttributesOnlyOnValueChange": true
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1430,
+          "layoutY": 363
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return {msg: msg, metadata: metadata, msgType: msgType};",
+          "tbelScript": "// Prepare the message to update server attributes\nmsg = {\n    \"alarmActivated\": true // Key-value pairs of the attributes to update\n};\nmsgType = \"POST_ATTRIBUTES_REQUEST\"; // Explicitly set the message type\nreturn { msg: msg, metadata: metadata, msgType: msgType };\n"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1139,
+          "layoutY": 360
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform message",
+        "debugSettings": {
+          "failuresEnabled": false,
+          "allEnabled": false,
+          "allEnabledUntil": 0
+        },
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "JS",
+          "jsScript": "// Custom Base64 Encoding Function\nfunction base64Encode(input) {\n    var chars = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\";\n    var output = \"\";\n    var i = 0;\n\n    while (i < input.length) {\n        var char1 = input.charCodeAt(i++);\n        var char2 = i < input.length ? input.charCodeAt(i++) : NaN;\n        var char3 = i < input.length ? input.charCodeAt(i++) : NaN;\n\n        var enc1 = char1 >> 2;\n        var enc2 = ((char1 & 3) << 4) | (char2 >> 4);\n        var enc3 = ((char2 & 15) << 2) | (char3 >> 6);\n        var enc4 = char3 & 63;\n\n        if (isNaN(char2)) {\n            enc3 = enc4 = 64;\n        } else if (isNaN(char3)) {\n            enc4 = 64;\n        }\n\n        output += chars.charAt(enc1) + chars.charAt(enc2) + chars.charAt(enc3) + chars.charAt(enc4);\n    }\n\n    return output;\n}\n\nvar buffer = [];\n\n// Encode Digital Input on Channel 1 (Type 0x01)\nbuffer.push(0x01); // Channel 1\nbuffer.push(0x01); // Digital input type (e.g., 0x01 for binary input)\n\n// Assuming `msg.digitalInput` is a valid boolean or number (0 or 1) for the digital input\nvar digitalInputValue = parseInt(msg.alarmActivated) ? 0x01 : 0x00; // 1 for ON, 0 for OFF\n\nbuffer.push(digitalInputValue); // Push digital input value (either 0 or 1)\n\n// Convert buffer to Base64 string using custom Base64 encoding\nvar binaryPayload = new Uint8Array(buffer);\nvar frmPayload = base64Encode(String.fromCharCode.apply(null, binaryPayload));\n\n// Construct MQTT downlink payload\nvar mqttPayload = {\n    downlinks: [\n        {\n            f_port: 15,  // Make sure `f_port` is defined\n            frm_payload: frmPayload,\n            decodedPayload: msg,  // msg\n            priority: \"NORMAL\"\n        }\n    ]\n};\n\nreturn {msg: mqttPayload, metadata: metadata, msgType: msgType};\n",
+          "tbelScript": "\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1342,
+          "layoutY": 172
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Overtemperature",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    delete metadata.prevAlarmDetails;\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "alarmDetailsBuildTbel": "var details = {};\nif (metadata.prevAlarmDetails != null) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    metadata.remove('prevAlarmDetails');\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "overwriteAlarmDetails": false,
+          "alarmType": "OVERTEMPERATURE!",
+          "severity": "CRITICAL",
+          "propagate": false,
+          "relationTypes": [],
+          "propagateToOwner": true,
+          "propagateToTenant": true,
+          "dynamicSeverity": false
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1429,
+          "layoutY": 301
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 11,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 0,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 1,
+        "type": "Post attributes"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "RPC Request from Device"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 4,
+        "type": "Other"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 5,
+        "type": "RPC Request to Device"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 9,
+        "type": "Attributes Updated"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 2,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 7,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 8,
+        "type": "True"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 10,
+        "type": "False"
+      },
+      {
+        "fromIndex": 10,
+        "toIndex": 14,
+        "type": "False"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 13,
+        "type": "True"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 15,
+        "type": "True"
+      },
+      {
+        "fromIndex": 13,
+        "toIndex": 12,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 14,
+        "toIndex": 7,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
