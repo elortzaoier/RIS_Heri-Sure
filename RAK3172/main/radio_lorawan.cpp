@@ -13,7 +13,7 @@
 static bool connected = false;
 
 /** Packet buffer for sending */
-static uint8_t uplink_payload[64];  // falta anyadir la comprobacion de overflow de buffer
+static uint8_t uplink_payload[64];  
 static uint8_t uplink_cnt = 0;
 
 /* fport */
@@ -21,20 +21,20 @@ static uint8_t fport = 33;
 
 void recvCallback(SERVICE_LORA_RECEIVE_T * data)
 {
-    if (data->BufferSize > 0) {
+    if (data->BufferSize > 0) 
+    {
       Serial.println("Something received");
-      switch (data->Buffer[1]) {
+      switch (data->Buffer[1]) 
+      {
         case 0x01:
-          if(data->Buffer[2] != 0){
-            switch_alarm_off();
-            Serial.println("Alarm disabled!");  
-          }    
+          switch_alarm_off();
+          Serial.println("Alarm disabled!"); 
           break;
         case 0x67:
           int16_t temperature_encoded;
           float temperature;
-          temperature_encoded = (data->Buffer[2] << 8) | data->Buffer[3]; // Reensamblar el valor de 16 bits
-          temperature = temperature_encoded / 10.0f; // Convertir de valor codificado a la temperatura original
+          temperature_encoded = (data->Buffer[2] << 8) | data->Buffer[3]; // Eassemble the 16-bit value
+          temperature = temperature_encoded / 10.0f; // Convert from coded value to original temperature
           set_max_temperature(temperature);
           Serial.printf("Max temperature set: %.2f。C\r\n", temperature);
           break;
@@ -83,7 +83,6 @@ void sendCallback(int32_t status)
 bool radio_Init(void)
 {
 
-    // ***DUDA, al perderse esto al salir, el "join" seguirá funcionando fuera de aquí???
     // OTAA Device EUI MSB first
     uint8_t node_device_eui[8] = OTAA_DEVEUI;
     // OTAA Application EUI MSB first
@@ -150,7 +149,6 @@ bool radio_Init(void)
         delay(10000);
     }
   
-    /* no sé por qué pòne esto ahora y no antes */
     /* ADR activated -> raro que sea ahora y no antes de ponerse con el join */
     if (!api.lorawan.adr.set(true)) 
     {
@@ -163,15 +161,6 @@ bool radio_Init(void)
         return false;
     }
 
-    /* este no entiendo bien que hace, lo cambiaré a 0 en el futuro */
-    /* suponiendo que son los reintentos
-    if (!api.lorawan.cfm.set(1)) 
-    {
-        Serial.printf("LoRaWan OTAA - set confirm mode is incorrect! \r\n");
-        return false;
-    }
-
-    /* a estas alturas esto es una condicion de carrera, creo yo */
     api.lorawan.registerRecvCallback(recvCallback);
     api.lorawan.registerJoinCallback(joinCallback);
     api.lorawan.registerSendCallback(sendCallback);
@@ -186,7 +175,6 @@ void radio_startPayload(uint8_t port)
   fport = port;
 }
 
-/* se podra enviar paquete con size 0??? */
 /* note that this schedules the transmission, doesn`t sends it immediately */  
 bool radio_sendPayload(void)
 {

@@ -44,11 +44,11 @@ void loop()
         radio_addCLPPAlarm(alarm);
         Serial.printf("Temperature = %.2f。C\r\n", temperature);
         Serial.printf("Humidity = %.2f%%\r\n", humidity);
-        radio_sendPayload();   /*** falta probar lo de que la conexion sea asincrona */
+        radio_sendPayload();   
   
         last = millis();
     }
-    //Serial.printf("Try sleep %ums..", MEASUREMENT_PERIOD);
-    api.system.sleep.all(MEASUREMENT_PERIOD); /* esto creo que esta mal energeticamente, creo que se despierta la cpu cuando sale el paquete */
-    //Serial.println("Wakeup..");
+    
+    api.system.sleep.all(MEASUREMENT_PERIOD);
+    
 }

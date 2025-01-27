@@ -9,7 +9,9 @@
 
 rak1901 rak1901;
 
-static float max_temperature = 37.5;
+#define DEFAULT_MAX_TEMPERATURE 37.5
+
+static float max_temperature = DEFAULT_MAX_TEMPERATURE;
 uint8_t alarm = 0;
 
 void sensor_Init(void)
@@ -17,7 +19,6 @@ void sensor_Init(void)
     Wire.begin();
 
     rak1901.init();
-    //Serial.printf("RAK1901 init %s\r\n", rak1901.init() ? "Success" : "Fail");
 }
 
 float temperature_read(void)
